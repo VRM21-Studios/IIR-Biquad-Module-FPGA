@@ -150,15 +150,22 @@ module tb_iir_biquad_axis;
         phase_l = 0.0;
         phase_r = 0.0;
 
-        aresetn = 1'b0;
-        s_axis_tvalid = 0;
-        s_axis_tdata  = 0;
-        s_axis_tlast  = 0;
+        aresetn       = 1'b0;
+        s_axis_tvalid = 1'b0;
+        s_axis_tdata  = 32'd0;
+        s_axis_tlast  = 1'b0;
         m_axis_tready = 1'b1;
 
-        s_axi_awvalid = 0;
-        s_axi_wvalid  = 0;
-        s_axi_bready  = 0;
+        // Explicit AXI-Lite Init
+        s_axi_awaddr  = 5'd0;
+        s_axi_awvalid = 1'b0;
+        s_axi_wdata   = 32'd0;
+        s_axi_wstrb   = 4'd0;
+        s_axi_wvalid  = 1'b0;
+        s_axi_bready  = 1'b0;
+        s_axi_araddr  = 5'd0;
+        s_axi_arvalid = 1'b0;
+        s_axi_rready  = 1'b0;
 
         f_csv = $fopen("tb_iir_biquad_axis.csv", "w");
         $fwrite(f_csv, "time_ns,in_L,in_R,out_L,out_R\n");
@@ -199,7 +206,7 @@ module tb_iir_biquad_axis;
 
             s_axis_tdata  <= {fix_l, fix_r};
             s_axis_tvalid <= 1'b1;
-            s_axis_tlast  <= (i == 999);
+            s_axis_tlast  <= (i == 999) ? 1'b1 : 1'b0;
 
             @(posedge aclk);
             while (!s_axis_tready) @(posedge aclk);
