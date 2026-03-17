@@ -70,9 +70,8 @@ module tb_iir_biquad;
     // --------------------------------------------------------
     initial begin
         // Init
-        rst       = 1'b1;
-        en        = 1'b0;
-        x_in     = 16'sd0;
+        rst        = 1'b1;
+        en         = 1'b0;
         phase_low  = 0.0;
         phase_high = 0.0;
 
@@ -81,7 +80,7 @@ module tb_iir_biquad;
         $fwrite(f, "time_ns,x_in,y_out\n");
 
         // ----------------------------------------------------
-        // Coefficient Set 1: Low-pass–like behavior
+        // Coefficient Set 1: Low-pass-like behavior
         // Q1.15 fixed-point
         // ----------------------------------------------------
         b0 = 16'sd4000;
@@ -101,7 +100,7 @@ module tb_iir_biquad;
         #20000;
 
         // ----------------------------------------------------
-        // Coefficient Set 2: High-pass–like behavior
+        // Coefficient Set 2: High-pass-like behavior
         // ----------------------------------------------------
         $display("TB: Switching to coefficient set 2 (HPF-like)");
 
@@ -123,7 +122,9 @@ module tb_iir_biquad;
     // 8. Input Signal Generator
     // --------------------------------------------------------
     always @(posedge clk) begin
-        if (!rst && en) begin
+        if (rst) begin
+            x_in <= 16'sd0;
+        end else if (en) begin
             phase_low  = phase_low  + 0.05; // Low frequency
             phase_high = phase_high + 0.80; // High frequency
 
