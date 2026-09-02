@@ -9,6 +9,14 @@ This is a true real-time streaming design; no frame buffering or offline-style p
 
 ---
 
+## Motivation
+
+This project was developed as part of a self-directed exploration of FPGA-based audio DSP and fixed-point recursive filtering. Biquad filters are widely used as practical second-order DSP building blocks, making them useful for studying the relationship between mathematical filter structures, numerical precision, and RTL implementation.
+
+The project also explores how a parameterized recursive DSP structure can be integrated into a real-time streaming hardware environment.
+
+---
+
 ## Overview
 
 This module implements:
